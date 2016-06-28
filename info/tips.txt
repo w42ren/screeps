@@ -1,0 +1,7 @@
+Use Room.energyAvailable and Room.energyCapacityAvailable to determine how much energy all the spawns and extensions in the room contain.
+Power banks appear only in neutral rooms that divide living sectors on the map.
+Spawn extensions capacity increases on room levels 7 and 8.
+Send emails to yourself with the function Game.notify to be aware of everything happening in the game.
+ A creep can execute some commands simultaneously in one tick, for example move+build+dropEnergy.
+ Inscreasing the reusePath option in the Creep.moveTo method helps saving CPU.
+ 
