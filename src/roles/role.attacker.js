@@ -17,23 +17,15 @@ var roleAttacker = {
             }
         }    
        
-	    if (creep.carry.energy < creep.carryCapacity) {
+	    if (!creep.memory.attacking) {
             var sources = creep.room.find(FIND_SOURCES);
             console.log('find sources ' );
             if(creep.harvest(sources[0])) {
                     creep.moveTo(sources[0]);
                     console.log('move to sources ' );
             }
-                
-        else {
-                if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(creep.room.controller);
-                }
-            }
 	   }
     
 	}
 	
 };
-
-module.exports = roleAttacker;

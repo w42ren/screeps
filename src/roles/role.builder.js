@@ -16,12 +16,21 @@ var roleBuilder = {
                 if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targets[0]);
                 }
-			}
-            else {
-               if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(creep.room.controller);
-            }
-            }
+	    	}
+	    	else {
+	        var repairtargets = creep.room.find(FIND_STRUCTURES, {
+            filter: object => object.hits < object.hitsMax
+             });
+
+            repairtargets.sort((a,b) => a.hits - b.hits);
+
+             if(repairtargets.length > 0) {
+                  if(creep.repair(repairtargets[0]) == ERR_NOT_IN_RANGE) {
+                  creep.moveTo(repairtargets[0]);    
+                }
+             }
+    } 
+	        
 	    }
 	    else {
 	        var sources = creep.room.find(FIND_SOURCES);
