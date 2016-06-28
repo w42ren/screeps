@@ -2,6 +2,7 @@ var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
 var roleAttacker = require('role.attacker');
+var roleTanker = require('role.tanker');
 
 module.exports.loop = function () {
         var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
@@ -12,7 +13,9 @@ module.exports.loop = function () {
     console.log('upgraders: ' + upgraders.length);
         var attackers = _.filter(Game.creeps, (creep) => creep.memory.role == 'attacker');
     console.log('attackers: ' + attackers.length);
-    
+        var tankers = _.filter(Game.creeps, (creep) => creep.memory.role == 'attacker');
+    console.log('attackers: ' + attackers.length);
+
 	if(harvesters.length < 4) {
         var newName = Game.spawns.Spawn1.createCreep([WORK,CARRY,MOVE], undefined, {role: 'harvester'});
         console.log('Spawning new harvester: ' + newName);
@@ -28,6 +31,10 @@ module.exports.loop = function () {
 	if(attackers.length < 1) {
         var newName = Game.spawns.Spawn1.createCreep([TOUGH,ATTACK,CARRY,MOVE,MOVE,MOVE], undefined, {role: 'attacker'});
         console.log('Spawning new attacker: ' + newName);
+	}
+	if(tankers.length < 0) {
+        var newName = Game.spawns.Spawn1.createCreep([CARRY,CARRY,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'tanker'});
+        console.log('Spawning new tanker: ' + newName);
 	}
     var tower = Game.getObjectById('id242290');
     if(tower) {
@@ -57,6 +64,9 @@ module.exports.loop = function () {
         }
         if(creep.memory.role == 'attacker') {
             roleAttacker.run(creep); 
+        }
+		if(creep.memory.role == 'tanker') {
+            roleTanker.run(creep); 
         }
 	}
 }
