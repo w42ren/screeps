@@ -1,4 +1,3 @@
-/** @param {Creep} creep **/
 var roleUpgrader = {
  
 

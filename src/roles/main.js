@@ -5,6 +5,11 @@ var roleAttacker = require('role.attacker');
 var roleTanker = require('role.tanker');
 
 module.exports.loop = function () {
+    for(var name in Memory.creeps) {
+        if(!Game.creeps[name]) {
+        delete Memory.creeps[name]; // deletes the memory for expired creeps
+        }
+    }
         var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
     console.log('harvesters: ' + harvesters.length);
         var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
