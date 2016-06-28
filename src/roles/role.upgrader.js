@@ -29,13 +29,24 @@ var roleUpgrader = {
             var sources = creep.room.find(FIND_SOURCES);
             console.log('find sources ' );
             if(creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[1]);
-            }
+				if(Game.cpu.tickLimit - Game.cpu.getUsed() > 20) {
+					creep.moveTo(sources[1]);
+					}
+				else {				
+                    creep.moveTo(sources[1],{reusePath: 10});
+			     }
+			}
 	    break;
 	    case 1: // Upgrade the node controller
 	           console.log('upgrade Controller ' );
-	           if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(creep.room.controller);
+			   
+	        if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+				if(Game.cpu.tickLimit - Game.cpu.getUsed() > 20) {
+					creep.moveTo(creep.room.controller);
+					}
+				else {				
+                    creep.moveTo(creep.room.controller,{reusePath: 10});
+			     }
 	           }
 	    break;
         }
