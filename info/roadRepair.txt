@@ -1,0 +1,15 @@
+            var roadRepair = creep.pos.findClosest(FIND_STRUCTURES, {
+                    filter: function(object){
+                   if(object.structureType != STRUCTURE_ROAD ) {
+                       return false;
+                   }
+                   if(object.hits > object.hitsMax / 3) {
+                    return false;
+                  }
+                   return true;
+
+			if(repairtargets.length > 0) {
+                  if(creep.repair(roadRepair) == ERR_NOT_IN_RANGE) {
+                  creep.moveTo(roadrepair);    
+                }
+		
