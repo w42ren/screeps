@@ -1,0 +1,13 @@
+If you read the docs you linked to you'll see that it says attack(target) and that target is an object. Currently you're passing attack() a string, "Player 3". In order for the attack function to actually target something you need to give it an object. Try something like this:
+
+Game.spawns.Spawn1.createCreep([Game.ATTACK, Game.MOVE],'Attacker1');
+var attacker = Game.creeps.Attacker1;
+var enemies= attacker.room.find(Game.HOSTILE_CREEPS);
+attacker.moveTo(enemies[0]);
+attacker.attack(enemies[0]);
+This code:
+
+Creates a creep named Attacker1 and assigns the object to a var named attacker
+Uses attacker's find() function to find all enemies and assigns them to an array named enemies
+Moves your attacker to the first enemy in the array (.attack() only works close range)
+Attacks the first enemy in the array of enemies
