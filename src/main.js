@@ -13,8 +13,8 @@ module.exports.loop = function () {
     console.log('upgraders: ' + upgraders.length);
         var attackers = _.filter(Game.creeps, (creep) => creep.memory.role == 'attacker');
     console.log('attackers: ' + attackers.length);
-        var tankers = _.filter(Game.creeps, (creep) => creep.memory.role == 'attacker');
-    console.log('attackers: ' + attackers.length);
+        var tankers = _.filter(Game.creeps, (creep) => creep.memory.role == 'tankers');
+    console.log('tankers: ' + tankers.length);
 
 	if(harvesters.length < 4) {
         var newName = Game.spawns.Spawn1.createCreep([WORK,CARRY,MOVE], undefined, {role: 'harvester'});
@@ -36,7 +36,7 @@ module.exports.loop = function () {
         var newName = Game.spawns.Spawn1.createCreep([CARRY,CARRY,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'tanker'});
         console.log('Spawning new tanker: ' + newName);
 	}
-    var tower = Game.getObjectById('id242290');
+    /**var tower = Game.getObjectById('id242290');
     if(tower) {
         var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
             filter: (structure) => structure.hits < structure.hitsMax
@@ -49,7 +49,7 @@ module.exports.loop = function () {
         if(closestHostile) {
             tower.attack(closestHostile);
         }
-    }
+    } **/
 
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
