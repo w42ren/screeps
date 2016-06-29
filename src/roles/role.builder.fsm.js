@@ -8,41 +8,50 @@
  */
 
 run: function(creep) { 
-    var full =0;
-    var empty =1;
-    var construct =0;
-    var fec=[full,empty,construct];
-    var initial_state = creep.memory.state;
-    var new_state = 0;
-
    
-    switch (new_state) {
-	
-	case 0://gathering
-	    console.log('gathering ' + creep.memory.state);
-		switch (fec)
-    	case : [1,0,1] new_state = 1;break;
-		case : [1,0,0] new_state = 2;break;
-		creep.memory.state = new_state;
-		console.log('new state ' + creep.memory.state);
-	break;
-	case 1://building
-		switch (fec)
-		console.log('building ' +  creep.memory.state);
-		case: [1,1,1] new_state = 0;break;
-		case: [0,0,0] new_state = 2;break;
-		creep.memory.state = new_state;
-	    console.log('new state ' + creep.memory.state);
-	break;
-	case 2://upgrading
-	    console.log('upgrading ' +  creep.memory.state);
-	    switch(fec)
-		//if  
-		case : [0,1,0] new_state = 0;break;
-		creep.memory.state = new_state;
-		console.log('new_state ' +  creep.memory.state);
-	break;
+  if (!creep.memory.builder) {
+	  creep.memory.builder= {
+	  full:FALSE,
+	  empty:TRUE,
+	  constructionSite:FALSE,
+	  GATHERING: 0,
+	  BUILDING: 1,
+	  UPGRADING : 2,
+	  fullAndConstructionSite: function() { 
+		return this.full && this.constructionSite;
+	  },
+	  notEmptyAndNoConstructionSite: function() { 
+		return !this.empty && !this.constructionSite;
+	  },
+	  fullAndNoConstructionSite: function() {
+	  this.full && !this.constructionSite
+	  };
+	  }
+    }
+    if (creep.memory.state==creep.memory.GATHERING && creep.memory.builder.fullAndConstructionSite()){
+	creep.memory.state=building;
 	}
-
+    else if (creep.memory.state==creep.memory.builder.GATHERING && creep.memory.builder.fullAndNoConstructionSite()){
+	creep.memory.state=upgrading;
+    }
+    else if (creep.memory.state==creep.memory.builder.BUILDING && creep.memory.builder.empty ) {
+	creep.memory.state=gathering;
+	}
+    else if (creep.memory.state==creep.memory.builder.BUILDING && creep.memory.builder.notEmptyAndNoConstructionSite()) {
+	creep.memory.state==upgrading;
+    }
+    else if (creep.memory.state==creep.memory.builder.UPGRADING && creep.memory.builder.empty) {
+	creep.memory.state=gathering;
+    }
+	
+	switch(creep.memory.state){
+	case creep.memory.builder.GATHERING:  //gathering code
+	break;
+	case creep.memory.builder.BUILDING:   //Building code
+	break;
+	case creep.memory.builder.UPGRADING:  //Upgrading code
+	break;
+	
+	}
 };
 module.exports = roleBuilder;
