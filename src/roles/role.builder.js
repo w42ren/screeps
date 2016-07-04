@@ -34,8 +34,10 @@ run: function(creep) {
 	var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
 	if (targets.length) {
 	    creep.memory.builder.constructionSite=true;
+	    }
+	else { 
+	    creep.memory.builder.constructionSite=false;
 	}
-	
 	if (creep.carry.energy > 0) {
 	   creep.memory.builder.empty=false;
 	}
@@ -55,8 +57,8 @@ run: function(creep) {
 	    console.log('Gathering')
 	   	    if(creep.carry.energy < creep.carryCapacity) {
                 
-                if(creep.harvest(ClosestSource) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(ClosestSource);
+                if(creep.harvest(closestSource) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(closestSource);
                 }
 	   	    }
 	break;

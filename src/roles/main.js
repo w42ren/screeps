@@ -28,11 +28,11 @@ module.exports.loop = function () {
         var newName = Game.spawns.Spawn1.createCreep([WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'harvester'});
         console.log('Spawning new harvester: ' + newName);
     }
-    if(builders.length < 2) {
-        var newName = Game.spawns.Spawn1.createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE], undefined, {role: 'builder'});
+    if(builders.length < 5) {
+        var newName = Game.spawns.Spawn1.createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'builder'});
         console.log('Spawning new builder: ' + newName);
     }
-    if(upgraders.length < 4) {
+    if(upgraders.length < 0) {
         var newName = Game.spawns.Spawn1.createCreep([WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'upgrader'});
         console.log('Spawning new upgrader: ' + newName);
     }
@@ -44,13 +44,16 @@ module.exports.loop = function () {
         var newName = Game.spawns.Spawn1.createCreep([WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'tanker'});
         console.log('Spawning new tanker: ' + newName);
 	}
-	if(repairers.length < 2) {
-        var newName = Game.spawns.Spawn1.createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE], undefined, {role: 'repairer'});
+	if(repairers.length < 7) {
+        var newName = Game.spawns.Spawn1.createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'repairer'});
         console.log('Spawning new repairer: ' + newName);
 	}
+//    var id = Room.find(STRUCTURE_TOWER).id
     
-    /**var tower = Game.getObjectById('id242290');
-    if(tower) {
+    
+    
+    
+   /** if(tower) {
         var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
             filter: (structure) => structure.hits < structure.hitsMax
         });
@@ -62,10 +65,53 @@ module.exports.loop = function () {
         if(closestHostile) {
             tower.attack(closestHostile);
         }
-    } **/
+    }**/
 
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
+        //var towerid = creep.room.find(FIND_STRUCTURES, {
+              
+        //                filter: (s) => s.structureType == STRUCTURE_TOWER
+   // });
+           // return (structure.structureType == STRUCTURE_TOWER)
+            //}
+        // filter: (structure) => {
+        //});
+        //console.log(towerid);
+        var tower = Game.getObjectById('5778e0d06b8406a661b7cddf');
+        
+        //console.log(tower);
+            if(tower) {
+       // var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+        //    filter: (structure) => structure.hits < structure.hitsMax
+        //});
+       
+        //if(closestDamagedStructure) {
+        //    tower.repair(closestDamagedStructure);
+        //}
+
+    var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+        if(closestHostile) {
+            tower.attack(closestHostile);
+        }
+    }
+    
+    var targets = creep.room.find(FIND_STRUCTURES, {
+        filter: (structure) => {
+            return (structure.structureType == STRUCTURE_SPAWN ||
+            structure.structureType == STRUCTURE_CONTAINER ||
+			structure.structureType == STRUCTURE_EXTENSION) && structure.energy < structure.energyCapacity;
+            }
+    });           
+    for (i = 0; i < targets.length; i++) {
+            tower.transferEnergy(targets[i], 50)
+            }
+        //console.log('damaged' +closestDamagedStructure);
+        //console.log('hostile' +closestHostile);
+        //var targetRoomName = "E34S17";    
+        //var targetPos = new RoomPosition(22,6, targetRoomName);
+        //creep.moveTo(targetPos);
+    tower.heal(creep);
         if(creep.memory.role == 'harvester') {
             roleHarvester.run(creep);
         }

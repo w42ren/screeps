@@ -4,6 +4,8 @@ run: function(creep) {
   if (typeof(creep.memory.state) == 'undefined') {
       creep.memory.state = 0;
   }
+  
+ 
   if (!creep.memory.repairer) {
 	  creep.memory.repairer= {
 	    full:false,
@@ -33,16 +35,32 @@ run: function(creep) {
     var sources = creep.room.find(FIND_SOURCES);
     var closestSource = creep.pos.findClosestByPath(sources);
     
+    
+    
 	var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
 		if (targets.length) {
 	    creep.memory.repairer.constructionSite=true;
 	}
+	else (
+	    creep.memory.repairer.constructionSite=false
+	)
+	
 	var repairs = creep.room.find(FIND_STRUCTURES, {
-    filter: object => object.hits < object.hitsMax
+    filter: object => object.hits < (0.9 * object.hitsMax)
     });
     
     repairs.sort((a,b) => a.hits - b.hits);
-
+    
+    // for (i = 0; i < 0.5*repairs.length ; i++) {
+        
+        //    }
+    if (repairs[0].hits < 4500){
+        closestRepair = repairs[0];
+    }    
+    else {
+    closestRepair = creep.pos.findClosestByPath(repairs);
+    }
+     console.log (closestRepair);
 	
 	if (creep.carry.energy > 0) {
 	   creep.memory.repairer.empty=false;
@@ -75,10 +93,10 @@ run: function(creep) {
                 }
 	break;
 	case creep.memory.repairer.REPAIRING: 
-	   // console.log('REPAIRING')//REPAIRING code
+	   console.log('REPAIRING')//REPAIRING code
             
-             if(creep.repair(repairs[0]) == ERR_NOT_IN_RANGE) {
-                  creep.moveTo(repairs[0]);    
+             if(creep.repair(closestRepair) == ERR_NOT_IN_RANGE) {
+                  creep.moveTo(closestRepair);    
                 } 
 			
 	break;

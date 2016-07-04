@@ -5,7 +5,7 @@ var roleUpgrader = {
 
         var start_state = creep.memory.state;
         var new_state=0;
-   
+        
         switch (start_state) {
         case 0: // Gathering.  When we're at capacity, start moving.
             if(creep.carry.energy == creep.carryCapacity) {
@@ -22,11 +22,10 @@ var roleUpgrader = {
         
         creep.memory.state = new_state;
         
-         console.log('new state ' + creep.memory.state);
 	    switch (new_state) {
         case 0: // Take resources, either from a container or node
             var sources = creep.room.find(FIND_SOURCES);
-            console.log('find sources ' );
+        
             if(creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
 				if(Game.cpu.tickLimit - Game.cpu.getUsed() > 20) {
 					creep.moveTo(sources[1]);
