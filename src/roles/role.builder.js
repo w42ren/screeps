@@ -29,8 +29,8 @@ run: function(creep) {
 	         creep.memory.state=creep.memory.builder.UPGRADING;
     }
 
-    var sources = creep.room.find(FIND_SOURCES);
-    var closestSource = creep.pos.findClosestByPath(sources);
+    
+    
 	var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
 	if (targets.length) {
 	    creep.memory.builder.constructionSite=true;
@@ -54,24 +54,44 @@ run: function(creep) {
 	
 	switch(creep.memory.state){
 	case creep.memory.builder.GATHERING:
+	    var sources = creep.room.find(FIND_SOURCES);
+	    var closestSource = creep.pos.findClosestByPath(sources);
 	    console.log('Gathering')
 	   	    if(creep.carry.energy < creep.carryCapacity) {
                 
                 if(creep.harvest(closestSource) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(closestSource);
+                    if(Game.cpu.tickLimit / Game.cpu.getUsed() > 50) {
+					creep.moveTo(closestSource);
+					}
+				else {				
+                    creep.moveTo(closestSource,{reusePath: 10});
+			     }
+                  //creep.moveTo(closestSource);
                 }
 	   	    }
 	break;
 	case creep.memory.builder.BUILDING: 
 	    console.log('Building')
                 if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0]);
+                    if(Game.cpu.tickLimit / Game.cpu.getUsed() > 50) {
+					creep.moveTo(targets[0]);
+					}
+				else {				
+                    creep.moveTo(targets[0],{reusePath: 10});
+			     }
+                    //creep.moveTo(targets[0]);
                 }
 	break;
 	case creep.memory.builder.UPGRADING: 
 	     console.log('Upgrading')//Upgrading code
 	      if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(creep.room.controller);
+                                    if(Game.cpu.tickLimit / Game.cpu.getUsed() > 50) {
+					creep.moveTo(creep.room.controller);
+					}
+				else {				
+                    creep.moveTo(creep.room.controller,{reusePath: 10});
+			     }
+               // creep.moveTo(creep.room.controller);
                 }   
 	break;
 	}
